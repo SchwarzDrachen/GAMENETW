@@ -20,17 +20,32 @@ public class Connection : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Room currentRoom = PhotonNetwork.CurrentRoom;
-        Debug.Log($"Joined a room: {currentRoom.Name}");
         connectingPanel.gameObject.SetActive(false);
         connectedPanel.gameObject.SetActive(true);
-        string formattedText =  $"Room Name: {currentRoom.Name}<br>";
-        foreach(var player in currentRoom.Players){
-            formattedText += $"[{player.Key}]: {player.Value.NickName}<br>";
-        }
-        roomInfoText.text = formattedText;
+        UpdateRoomInfo();
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log($"{newPlayer.NickName} joined the room");
+        UpdateRoomInfo();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log($"{otherPlayer.NickName} left the room");
+        UpdateRoomInfo();
+    }
+
+
+    private void UpdateRoomInfo(){
+        Room currentRoom = PhotonNetwork.CurrentRoom;
+        string formattedText =  $"Room Name: {currentRoom.Name}<br>";
+            foreach(var player in currentRoom.Players){
+                formattedText += $"[{player.Key}]: {player.Value.NickName}<br>";
+            }
+            roomInfoText.text = formattedText;
+    }
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log($"Failed to join a room: {message}");
