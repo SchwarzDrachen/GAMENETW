@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 public class Connection : MonoBehaviourPunCallbacks
 {
     private const int MAX_PLAYERS = 4;
+    [SerializeField] private RectTransform connectingPanel;
+    [SerializeField] private RectTransform connectedPanel;
+    [SerializeField] private TextMeshProUGUI roomInfoText;
 
     public override void OnConnectedToMaster()
     {
@@ -18,6 +22,13 @@ public class Connection : MonoBehaviourPunCallbacks
     {
         Room currentRoom = PhotonNetwork.CurrentRoom;
         Debug.Log($"Joined a room: {currentRoom.Name}");
+        connectingPanel.gameObject.SetActive(false);
+        connectedPanel.gameObject.SetActive(true);
+        string formattedText =  $"Room Name: {currentRoom.Name}<br>";
+        foreach(var player in currentRoom.Players){
+            formattedText += $"[{player.Key}]: {player.Value.NickName}<br>";
+        }
+        roomInfoText.text = formattedText;
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -27,7 +38,7 @@ public class Connection : MonoBehaviourPunCallbacks
         // If no rooms are available (all rooms are full or there are no rooms at all)..
         // Create own room
         PhotonNetwork.CreateRoom(
-            roomName: null,
+            roomName: $"{PhotonNetwork.NickName}'s Room",
             roomOptions: new RoomOptions{
                 MaxPlayers = MAX_PLAYERS
             });
