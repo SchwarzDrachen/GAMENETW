@@ -42,7 +42,12 @@ public class Connection : MonoBehaviourPunCallbacks
         Room currentRoom = PhotonNetwork.CurrentRoom;
         string formattedText =  $"Room Name: {currentRoom.Name}<br>";
             foreach(var player in currentRoom.Players){
-                formattedText += $"[{player.Key}]: {player.Value.NickName}<br>";
+                if(PhotonNetwork.IsMasterClient){
+                     formattedText += $"<color=#ee7358>[{player.Key}]: {player.Value.NickName}</color><br>";
+                }
+                else{
+                     formattedText += $"[{player.Key}]: {player.Value.NickName}<br>";
+                }
             }
             roomInfoText.text = formattedText;
     }
