@@ -6,11 +6,14 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 2.0f;
 
-    float currentHealth, maxHealth;
+    public float currentHealth, maxHealth;
 
     private Transform target = null;
 
     [SerializeField] HealthManager healthBar;
+    /*[SerializeField] private new Camera camera;
+    [SerializeField] private Transform anchor;
+    [SerializeField] private Vector3 offset;*/
 
     private void Awake()
     {
@@ -19,32 +22,49 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        //  I set maxHealth to random (DELETE ME)
-        maxHealth = Random.Range(1f, 4f);
-        currentHealth = maxHealth;
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
         target = GameObject.Find("Player").transform;
     }
 
-    private void OnEnable(){
+    private void OnEnable()
+    {
         LookAtTarget();
+
+        maxHealth = Random.Range(10f, 100f);
+        currentHealth = maxHealth;
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }
 
-    public void SetTarget(Transform target){
+    public void SetTarget(Transform target)
+    {
         this.target = target;
     }
 
-    private void Update(){
+    private void Update()
+    {
         Move();
 
-        //  If gameObject collides with prefab "playerBullet", take damage
-        if (Physics2D.Raycast(transform.position, Vector2.zero, 0.5f, LayerMask.GetMask("PlayerBullet")))
+        /*transform.rotation = camera.transform.rotation;
+        transform.position = anchor.position + offset;*/
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        //  PlayerBullet makes contact with Enemy
+        if (collision.gameObject.tag == "Bullet")
         {
+            //  SHIP HAS BEEN HIT, I REPEAT, SHIP HAS BEEN HIT
             TakeDamage(10f);
         }
+
+        if (collision.gameObject.tag == "Planet")
+        {
+            //  MISSION COMPLETE; DEATH TO THE PLANET
+            TakeDamage(100f);
+        }
     }
-    
-    private void LookAtTarget(){
+
+    private void LookAtTarget()
+    {
         Quaternion newRotation;
         Vector3 targetDirection = target == null ? transform.position : transform.position - target.transform.position;
         newRotation = Quaternion.LookRotation(targetDirection, Vector3.forward);
@@ -53,7 +73,8 @@ public class Enemy : MonoBehaviour
         transform.rotation = newRotation;
     }
 
-    private void Move(){
+    private void Move()
+    {
         transform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
     }
 
