@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 2.0f;
 
-    public float currentHealth, maxHealth;
+    public float currentHealth, maxHealth, dropRate = .5f;
 
     private Transform target = null;
 
     [SerializeField] HealthManager healthBar;
+    [SerializeField] Score score;
+
+    [SerializeField] GameObject powerUp;
 
     private void Awake()
     {
@@ -26,9 +30,12 @@ public class Enemy : MonoBehaviour
     {
         LookAtTarget();
 
-        maxHealth = Random.Range(10f, 100f);
+        maxHealth = Random.Range(50f, 100f);
         currentHealth = maxHealth;
         healthBar.UpdateEnemyHealthBar(currentHealth, maxHealth);
+
+        //  Finds the Score Component. Clutch. I was losing my mind.
+        score = FindObjectOfType<Score>();
     }
 
     public void SetTarget(Transform target)
@@ -53,7 +60,7 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag == "Planet")
         {
             //  MISSION COMPLETE; DEATH TO THE PLANET
-            TakeDamage(100f);
+            Die();
         }
     }
 
@@ -83,6 +90,21 @@ public class Enemy : MonoBehaviour
             //  Use the object pooling thing?
             Debug.Log("ENEMY KILLED");
             gameObject.SetActive(false);
+
+            //  Score increment
+            score.UpdateScore();
+
+            if (Random.value < dropRate)
+            {
+                powerUp.transform.position = transform.position;
+                powerUp.SetActive(true);
+            }
+            
         }
+    }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
     }
 }

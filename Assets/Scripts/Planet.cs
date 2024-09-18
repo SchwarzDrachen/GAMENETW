@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    [SerializeField] PlanetHealthManager healthBar;
+    [SerializeField] HealthManager healthBar;
     [SerializeField] Enemy enemy;
     [SerializeField] GameObject gameOverScreen;
 
@@ -14,7 +14,7 @@ public class Planet : MonoBehaviour
     {
         maxHealth = 1000f;
         currentHealth = maxHealth;
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        healthBar.UpdatePlanetHealthBar(currentHealth, maxHealth);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -29,7 +29,7 @@ public class Planet : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        healthBar.UpdatePlanetHealthBar(currentHealth, maxHealth);
         if (currentHealth <= 0)
         {
             //  GAME OVER

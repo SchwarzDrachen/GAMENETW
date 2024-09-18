@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +13,6 @@ public class PlanetHealthManager : MonoBehaviour
 
     public void UpdateHealthBar(float currentValue, float maxValue)
     {
-        slider.value = currentValue / maxValue;
         healthText.text = currentValue + "/" + maxValue;
     }
 
@@ -22,4 +21,4 @@ public class PlanetHealthManager : MonoBehaviour
     {
 
     }
-}
+}*/
