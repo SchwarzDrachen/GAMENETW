@@ -228,7 +228,7 @@ RectTransform:
   m_Father: {fileID: 4407327107245615609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.040008545, y: 0.055000305}
   m_SizeDelta: {x: -2.25, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -372,7 +372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 437d688e7be2aac4996aa9a3c4d63acf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 5683243900860250778}
+  enemySlider: {fileID: 5683243900860250778}
+  planetSlider: {fileID: 0}
   camera: {fileID: 4116680312247757628, guid: 1085738a7d99c0b419ddf219b1fda3ec, type: 3}
   target: {fileID: 1197999697048073567}
   offset: {x: 0, y: 0.6, z: 0}
@@ -390,11 +391,11 @@ GameObject:
   - component: {fileID: 6786337274505813126}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1197999697048073567
 Transform:
   m_ObjectHideFlags: 0

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    [SerializeField] EnemyHealthManager healthBar;
+    [SerializeField] PlanetHealthManager healthBar;
+    [SerializeField] Enemy enemy;
+    [SerializeField] GameObject gameOverScreen;
 
     public float currentHealth, maxHealth;
 
@@ -17,16 +19,9 @@ public class Planet : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //  PlayerBullet makes contact with Enemy
-        if (collision.gameObject.tag == "Bullet")
+        if (collision.gameObject.tag == "Enemy")
         {
-            //  SHIP HAS BEEN HIT, I REPEAT, SHIP HAS BEEN HIT
-            TakeDamage(10f);
-        }
-
-        if (collision.gameObject.tag == "Planet")
-        {
-            //  MISSION COMPLETE; DEATH TO THE PLANET
+            //  I tried making it the enemy's currentHP, nah I gave up after it didn't work the first time.
             TakeDamage(100f);
         }
     }
@@ -37,10 +32,12 @@ public class Planet : MonoBehaviour
         healthBar.UpdateHealthBar(currentHealth, maxHealth);
         if (currentHealth <= 0)
         {
-            //  Figure out how to kill the enemy without destroying gameobject?
-            //  Use the object pooling thing?
-            Debug.Log("ENEMY KILLED");
-            gameObject.SetActive(false);
+            //  GAME OVER
+            Debug.Log("GAME OVER");
+            gameOverScreen.SetActive(true);
+            //  Yeah, no. I'm not doing a whole game handler/manager. Nakakatamad typesh. Ayokong mag add rin ng Restart button.
+            /*gameHandler.PauseGame;*/
+            Time.timeScale = 0f;
         }
     }
 }

@@ -11,9 +11,6 @@ public class Enemy : MonoBehaviour
     private Transform target = null;
 
     [SerializeField] HealthManager healthBar;
-    /*[SerializeField] private new Camera camera;
-    [SerializeField] private Transform anchor;
-    [SerializeField] private Vector3 offset;*/
 
     private void Awake()
     {
@@ -31,7 +28,7 @@ public class Enemy : MonoBehaviour
 
         maxHealth = Random.Range(10f, 100f);
         currentHealth = maxHealth;
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        healthBar.UpdateEnemyHealthBar(currentHealth, maxHealth);
     }
 
     public void SetTarget(Transform target)
@@ -42,9 +39,6 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         Move();
-
-        /*transform.rotation = camera.transform.rotation;
-        transform.position = anchor.position + offset;*/
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -82,7 +76,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        healthBar.UpdateEnemyHealthBar(currentHealth, maxHealth);
         if (currentHealth <= 0)
         {
             //  Figure out how to kill the enemy without destroying gameobject?
