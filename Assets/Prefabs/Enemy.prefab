@@ -429,8 +429,10 @@ MonoBehaviour:
   moveSpeed: 2
   currentHealth: 0
   maxHealth: 0
+  dropRate: 0
   healthBar: {fileID: 1057149877111107380}
   score: {fileID: 0}
+  powerUp: {fileID: 0}
 --- !u!50 &6442228073233307919
 Rigidbody2D:
   serializedVersion: 4

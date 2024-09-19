@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
-using static UnityEngine.GraphicsBuffer;
 
 public class PowerUp : MonoBehaviour
 {
@@ -20,6 +18,8 @@ public class PowerUp : MonoBehaviour
     private void OnEnable()
     {
         LookAtTarget();
+
+        Debug.Log("I really spawned at " + transform.position);
     }
 
     private void LookAtTarget()

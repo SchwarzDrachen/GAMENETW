@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 2.0f;
 
-    public float currentHealth, maxHealth, dropRate = .5f;
+    public float currentHealth, maxHealth, dropRate = 100f;
 
     private Transform target = null;
 
@@ -54,6 +54,9 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             //  SHIP HAS BEEN HIT, I REPEAT, SHIP HAS BEEN HIT
+            //  Future reference, it's better to give the Player the Damage value and pass it through here
+            //  But I realise this far too late.
+            //  Not too late to salvage this though. Could just have a function in the Enemy script called CritRate or smth
             TakeDamage(10f);
         }
 
@@ -86,6 +89,19 @@ public class Enemy : MonoBehaviour
         healthBar.UpdateEnemyHealthBar(currentHealth, maxHealth);
         if (currentHealth <= 0)
         {
+            Debug.Log("Enemy died at " + transform.position);
+            if (Random.value < 100f)
+            {
+                GameObject powerUp = ObjectPoolManager.Instance.GetPooledObject("PowerUp");
+                if (powerUp != null)
+                {
+                    powerUp.transform.position = transform.position;
+                    powerUp.SetActive(true);
+                    Debug.Log("Power up spawned at " + powerUp.transform.position);
+                }
+                
+            }
+
             //  Figure out how to kill the enemy without destroying gameobject?
             //  Use the object pooling thing?
             Debug.Log("ENEMY KILLED");
@@ -93,13 +109,6 @@ public class Enemy : MonoBehaviour
 
             //  Score increment
             score.UpdateScore();
-
-            if (Random.value < dropRate)
-            {
-                powerUp.transform.position = transform.position;
-                powerUp.SetActive(true);
-            }
-            
         }
     }
 
