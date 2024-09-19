@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 2.0f;
 
-    public float currentHealth, maxHealth, dropRate = 100f;
+    public float currentHealth, maxHealth;
 
     private Transform target = null;
 
@@ -24,18 +24,19 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         target = GameObject.Find("Player").transform;
+
+        //  Finds the Score Component. Clutch. I was losing my mind.
+        score = FindObjectOfType<Score>();
     }
 
     private void OnEnable()
     {
         LookAtTarget();
 
+        //  CHANGE HEALTH TO A DEFAULT VALUE INSTEAD OF A RANDOM ONE
         maxHealth = Random.Range(50f, 100f);
         currentHealth = maxHealth;
         healthBar.UpdateEnemyHealthBar(currentHealth, maxHealth);
-
-        //  Finds the Score Component. Clutch. I was losing my mind.
-        score = FindObjectOfType<Score>();
     }
 
     public void SetTarget(Transform target)
@@ -48,7 +49,7 @@ public class Enemy : MonoBehaviour
         Move();
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)  //  CHANGE DAMAGE
     {
         //  PlayerBullet makes contact with Enemy
         if (collision.gameObject.tag == "Bullet")
@@ -57,13 +58,16 @@ public class Enemy : MonoBehaviour
             //  Future reference, it's better to give the Player the Damage value and pass it through here
             //  But I realise this far too late.
             //  Not too late to salvage this though. Could just have a function in the Enemy script called CritRate or smth
-            TakeDamage(10f);
+            float baseDamage = 10f;
+
+            TakeDamage(baseDamage);
         }
 
         if (collision.gameObject.tag == "Planet")
         {
             //  MISSION COMPLETE; DEATH TO THE PLANET
-            Die();
+            //  CHANGE THE FUNCTION NAME
+            gameObject.SetActive(false);
         }
     }
 
@@ -89,31 +93,30 @@ public class Enemy : MonoBehaviour
         healthBar.UpdateEnemyHealthBar(currentHealth, maxHealth);
         if (currentHealth <= 0)
         {
-            Debug.Log("Enemy died at " + transform.position);
-            if (Random.value < 100f)
-            {
-                GameObject powerUp = ObjectPoolManager.Instance.GetPooledObject("PowerUp");
-                if (powerUp != null)
-                {
-                    powerUp.transform.position = transform.position;
-                    powerUp.SetActive(true);
-                    Debug.Log("Power up spawned at " + powerUp.transform.position);
-                }
-                
-            }
-
-            //  Figure out how to kill the enemy without destroying gameobject?
-            //  Use the object pooling thing?
-            Debug.Log("ENEMY KILLED");
-            gameObject.SetActive(false);
-
-            //  Score increment
-            score.UpdateScore();
+            OnDeath();
         }
     }
 
-    public void Die()
+    public void OnDeath()
     {
+        Debug.Log("Enemy died at " + transform.position);
+        //  Handles the PowerUp
+        if (Random.value < 0.25f)
+        {
+            GameObject powerUp = ObjectPoolManager.Instance.GetPooledObject("PowerUp");
+            if (powerUp != null)
+            {
+                powerUp.transform.position = transform.position;
+                powerUp.SetActive(true);
+                Debug.Log("Power up spawned at " + powerUp.transform.position);
+            }
+
+        }
+
+        Debug.Log("ENEMY KILLED");
         gameObject.SetActive(false);
+
+        //  Score increment
+        score.UpdateScore();
     }
 }

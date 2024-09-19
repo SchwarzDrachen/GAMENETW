@@ -44,11 +44,13 @@ public class PowerUp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Planet")
         {
             // Activate power-up effects
+
+
             Debug.Log("Power-up collected!");
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
