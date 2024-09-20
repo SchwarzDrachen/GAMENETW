@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class Score : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private PowerUpManager powerUpManager;
 
-    public float currentScore, enemyKill = 1f, bonus = 1f;
+    public float currentScore, enemyKill = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -19,8 +21,15 @@ public class Score : MonoBehaviour
 
     public void UpdateScore()
     {
-        //  Do the math typesh
-        enemyKill *= bonus;
+       if(powerUpManager.ScoreBoostActive)
+        {
+            //  Do the math typesh
+            enemyKill = 2;
+        }
+       if(!powerUpManager.ScoreBoostActive)
+        {
+            enemyKill = 1;
+        }
         currentScore += enemyKill;
 
         //  Display the score typesh

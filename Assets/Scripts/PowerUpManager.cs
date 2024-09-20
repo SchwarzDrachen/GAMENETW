@@ -11,18 +11,15 @@ public class PowerUpManager : MonoBehaviour
     private void Start()
     {
         extraDamage = 5f;
-        scoreBonus = 1f;
     }
 
     public void DamageBoost()
     {
         DamageBoostActive = true;
-        extraDamage = 5f;
     }
     
     public void ScoreBoost()
     {
         ScoreBoostActive = true;
-        scoreBonus = 2f;
     }
 }

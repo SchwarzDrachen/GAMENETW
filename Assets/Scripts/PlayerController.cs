@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float movementRadius = 1.5f;
     [SerializeField] private float fireRate = 0.1f;
     [SerializeField] private GameObject bullet;
+    [SerializeField] GameObject damageBoost;
+    [SerializeField] GameObject scoreBoost;
+    [SerializeField] PowerUpManager powerUpManager;
 
     private float currentSpeed;
     private float timeCounter;
@@ -19,6 +22,19 @@ public class PlayerController : MonoBehaviour
     private void Update(){
         HandleMovement();
         HandleRotation();
+    }
+    private IEnumerator DamagePowerTimer()
+    {
+        yield return new WaitForSeconds(10.0f);
+        Debug.Log("Damage OFF");
+        powerUpManager.DamageBoostActive = false;
+    }
+
+    private IEnumerator ScorePowerTimer()
+    {
+        yield return new WaitForSeconds(10.0f);
+        Debug.Log("Damage OFF");
+        powerUpManager.ScoreBoostActive = false;
     }
 
     private void HandleMovement(){
@@ -49,6 +65,30 @@ public class PlayerController : MonoBehaviour
         if(bullet != null){
             bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
             bullet.gameObject.SetActive(true);
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "DamageBoost")
+        {
+            // Activate power-up effects
+            powerUpManager.DamageBoostActive = true;
+
+            //Debug.Log("Damage Boost for 10 seconds.");
+            collision.gameObject.SetActive(false);
+            StartCoroutine(DamagePowerTimer());
+            
+        }
+
+        if (collision.gameObject.tag == "ScoreBoost")
+        {
+            // Activate power-up effects
+            powerUpManager.ScoreBoostActive = true;
+
+            //Debug.Log("Score Boost for 10 seconds.");
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ScorePowerTimer());
         }
     }
 }

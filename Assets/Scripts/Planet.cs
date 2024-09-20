@@ -8,8 +8,7 @@ public class Planet : MonoBehaviour
     [SerializeField] Enemy enemy;
     [SerializeField] GameObject gameOverScreen;
 
-    [SerializeField] GameObject damageBoost;
-    [SerializeField] GameObject scoreBoost;
+    
 
     [SerializeField] PowerUpManager powerUpManager;
 
@@ -30,23 +29,7 @@ public class Planet : MonoBehaviour
             TakeDamage(100f);
         }
 
-        if (collision.gameObject.tag == "DamageBoost")
-        {
-            // Activate power-up effects
-            powerUpManager.DamageBoostActive = true;
-
-            Debug.Log("Damage Boost for 10 seconds.");
-            damageBoost.SetActive(false);
-        }
-
-        if (collision.gameObject.tag == "ScoreBoost")
-        {
-            // Activate power-up effects
-            powerUpManager.ScoreBoostActive = true;
-
-            Debug.Log("Score Boost for 10 seconds.");
-            scoreBoost.SetActive(false);
-        }
+        
     }
 
     public void TakeDamage(float damage)
