@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 2334921173542453769}
   m_Layer: 0
   m_Name: DamagePowerUp
-  m_TagString: Untagged
+  m_TagString: DamageBoost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

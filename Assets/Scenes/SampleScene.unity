@@ -515,6 +515,10 @@ PrefabInstance:
       propertyPath: damageBoost
       value: 
       objectReference: {fileID: 1630597400}
+    - target: {fileID: 7805430256149134490, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
+      propertyPath: powerUpManager
+      value: 
+      objectReference: {fileID: 1630597400}
     - target: {fileID: 8629749838495680593, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -1095,6 +1099,9 @@ MonoBehaviour:
   healthBar: {fileID: 420204334}
   enemy: {fileID: 1379242923}
   gameOverScreen: {fileID: 1842920288}
+  damageBoost: {fileID: 2082201252}
+  scoreBoost: {fileID: 6288690793052722819}
+  powerUpManager: {fileID: 1630597400}
   currentHealth: 0
   maxHealth: 0
 --- !u!1 &1630597399
@@ -1129,6 +1136,7 @@ MonoBehaviour:
   extraDamage: 0
   scoreBonus: 0
   DamageBoostActive: 0
+  ScoreBoostActive: 0
 --- !u!4 &1630597401
 Transform:
   m_ObjectHideFlags: 0
@@ -1372,8 +1380,13 @@ MonoBehaviour:
     parent: {fileID: 1933704411}
     amountToPool: 10
     shouldExpand: 1
-  - id: PowerUp
+  - id: DamagePowerUp
     objectToPool: {fileID: 2082201252}
+    parent: {fileID: 1933704411}
+    amountToPool: 10
+    shouldExpand: 1
+  - id: ScorePowerUp
+    objectToPool: {fileID: 482748705916171600, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
     parent: {fileID: 1933704411}
     amountToPool: 10
     shouldExpand: 1
@@ -1441,10 +1454,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2334921173542453769, guid: 4f70af962b630154cb0e951cb2e48b71, type: 3}
-      propertyPath: damageBoost
-      value: 
-      objectReference: {fileID: 1630597400}
     - target: {fileID: 6173834011648324981, guid: 4f70af962b630154cb0e951cb2e48b71, type: 3}
       propertyPath: m_Name
       value: DamagePowerUp
@@ -1511,6 +1520,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &2002036763532804991
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 482748705916171600, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_Name
+      value: ScorePowerUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832888673286763666, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
 --- !u!1 &2132506660703597248
 GameObject:
   m_ObjectHideFlags: 0
@@ -1882,6 +1948,11 @@ MonoBehaviour:
   currentScore: 0
   enemyKill: 1
   bonus: 1
+--- !u!1 &6288690793052722819 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 482748705916171600, guid: cc208b854ace88f49908c97cc49085fe, type: 3}
+  m_PrefabInstance: {fileID: 2002036763532804991}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6973601989803795101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1955,5 +2026,6 @@ SceneRoots:
   - {fileID: 883537170}
   - {fileID: 590888385}
   - {fileID: 2082201251}
+  - {fileID: 2002036763532804991}
   - {fileID: 4783826521634010792}
   - {fileID: 1630597401}

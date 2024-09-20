@@ -15,10 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] HealthManager healthBar;
     [SerializeField] Score score;
 
-    [SerializeField] PowerUp powerUp;
-    [SerializeField] PowerUpManager damageBoost;
-    [SerializeField] PowerUpManager scoreBoost;
-    [SerializeField] PowerUpManager heal;
+    [SerializeField] PowerUpManager powerUpManager;
 
     private void Awake()
     {
@@ -32,11 +29,7 @@ public class Enemy : MonoBehaviour
         //  Finds the Score Component. Clutch. I was losing my mind.
         score = FindObjectOfType<Score>();
 
-        powerUp = FindObjectOfType<PowerUp>();
-
-        damageBoost = FindObjectOfType<PowerUpManager>();
-        scoreBoost = FindObjectOfType<PowerUpManager>();
-        heal = FindObjectOfType<PowerUpManager>();
+        powerUpManager = FindObjectOfType<PowerUpManager>();
     }
 
     private void OnEnable()
@@ -59,7 +52,7 @@ public class Enemy : MonoBehaviour
         Move();
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)  //  CHANGE DAMAGE
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         //  PlayerBullet makes contact with Enemy
         if (collision.gameObject.tag == "Bullet")
@@ -70,10 +63,9 @@ public class Enemy : MonoBehaviour
             //  Not too late to salvage this though. Could just have a function in the Enemy script called CritRate or smth
             float baseDamage = 10f;
 
-            if (damageBoost.DamageBoostActive)
+            if (powerUpManager.DamageBoostActive)
             {
-                TakeDamage(baseDamage * 5f);
-                Debug.Log("Shooting 50 damage");
+                TakeDamage(baseDamage * powerUpManager.extraDamage);
             }
 
             else
@@ -114,15 +106,26 @@ public class Enemy : MonoBehaviour
         {
             OnDeath();
         }
+        Debug.Log("Damage: " + damage);
     }
 
     public void OnDeath()
     {
         Debug.Log("Enemy died at " + transform.position);
         //  Handles the PowerUp
-        if (Random.value < 0.25f)
+        if (Random.value < 1f)
         {
-            GameObject powerUp = ObjectPoolManager.Instance.GetPooledObject("PowerUp");
+            float randomValue = Random.value;
+            GameObject powerUp = null;
+            if (randomValue < 0.5f) // 50% chance for each power-up
+            {
+                powerUp = ObjectPoolManager.Instance.GetPooledObject("DamagePowerUp");
+            }
+            else
+            {
+                powerUp = ObjectPoolManager.Instance.GetPooledObject("ScorePowerUp");
+            }
+
             if (powerUp != null)
             {
                 powerUp.transform.position = transform.position;
@@ -130,12 +133,11 @@ public class Enemy : MonoBehaviour
                 Debug.Log("Power up spawned at " + powerUp.transform.position);
             }
 
+            gameObject.SetActive(false);
+
+            //  Score increment
+            score.UpdateScore();
         }
-
-        Debug.Log("ENEMY KILLED");
-        gameObject.SetActive(false);
-
-        //  Score increment
-        score.UpdateScore();
-    }
+    } 
 }
+
