@@ -11,7 +11,6 @@ public class Score : MonoBehaviour
 
     public float currentScore, enemyKill = 1f;
 
-    // Start is called before the first frame update
     void Start()
     {
         currentScore = 0f;
@@ -23,7 +22,6 @@ public class Score : MonoBehaviour
     {
        if(powerUpManager.ScoreBoostActive)
         {
-            //  Do the math typesh
             enemyKill = 2;
         }
        if(!powerUpManager.ScoreBoostActive)
@@ -32,7 +30,6 @@ public class Score : MonoBehaviour
         }
         currentScore += enemyKill;
 
-        //  Display the score typesh
         scoreText.text = "Score: " + currentScore;
     }
 }

@@ -5,11 +5,7 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
     [SerializeField] HealthManager healthBar;
-    [SerializeField] Enemy enemy;
     [SerializeField] GameObject gameOverScreen;
-
-    
-
     [SerializeField] PowerUpManager powerUpManager;
 
     public float currentHealth, maxHealth;
@@ -25,11 +21,8 @@ public class Planet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            //  I tried making it the enemy's currentHP, nah I gave up after it didn't work the first time.
-            TakeDamage(100f);
+            TakeDamage(50f);
         }
-
-        
     }
 
     public void TakeDamage(float damage)
@@ -41,8 +34,6 @@ public class Planet : MonoBehaviour
             //  GAME OVER
             Debug.Log("GAME OVER");
             gameOverScreen.SetActive(true);
-            //  Yeah, no. I'm not doing a whole game handler/manager. Nakakatamad typesh. Ayokong mag add rin ng Restart button.
-            /*gameHandler.PauseGame;*/
             Time.timeScale = 0f;
         }
     }

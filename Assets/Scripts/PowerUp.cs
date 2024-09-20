@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float moveSpeed = 1f;
     private Transform target = null;
 
     private void Start()
     {
-        target = GameObject.Find("Player").transform;
+        target = GameObject.Find("Planet").transform;
     }
 
     public void SetTarget(Transform target)

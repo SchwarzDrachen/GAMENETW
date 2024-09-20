@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 1.0f;
+    [SerializeField] private float moveSpeed = 0.75f;
 
     public float currentHealth, maxHealth;
 
