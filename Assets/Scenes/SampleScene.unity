@@ -496,25 +496,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7805430256149134490, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
-      propertyPath: heal
-      value: 
-      objectReference: {fileID: 1630597400}
-    - target: {fileID: 7805430256149134490, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
       propertyPath: score
       value: 
       objectReference: {fileID: 6185200888025708577}
-    - target: {fileID: 7805430256149134490, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
-      propertyPath: powerUp
-      value: 
-      objectReference: {fileID: 2082201253}
-    - target: {fileID: 7805430256149134490, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
-      propertyPath: scoreBoost
-      value: 
-      objectReference: {fileID: 1630597400}
-    - target: {fileID: 7805430256149134490, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
-      propertyPath: damageBoost
-      value: 
-      objectReference: {fileID: 1630597400}
     - target: {fileID: 7805430256149134490, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
       propertyPath: powerUpManager
       value: 
@@ -1466,17 +1450,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6173834011648324981, guid: 4f70af962b630154cb0e951cb2e48b71, type: 3}
   m_PrefabInstance: {fileID: 2082201251}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2082201253 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2334921173542453769, guid: 4f70af962b630154cb0e951cb2e48b71, type: 3}
-  m_PrefabInstance: {fileID: 2082201251}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2082201252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 602a0a1f539e3be4aa12d03503b48b31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11373314703945129 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4505883307457746317, guid: b98d0c5d447aa9f4bb3f9f5f2eb3aa2d, type: 3}

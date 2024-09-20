@@ -23,7 +23,10 @@ public class Score : MonoBehaviour
     {
         if (powerUpManager.ScoreBoostActive)
         {
+            powerUpManager.ActivateScoreBoost();
+
             currentScore += enemyKill * powerUpManager.scoreBonus;
+            Debug.Log("score bonus: " + powerUpManager.scoreBonus);
         }
         else
         {

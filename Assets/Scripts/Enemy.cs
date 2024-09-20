@@ -61,11 +61,12 @@ public class Enemy : MonoBehaviour
             //  Future reference, it's better to give the Player the Damage value and pass it through here
             //  But I realise this far too late.
             //  Not too late to salvage this though. Could just have a function in the Enemy script called CritRate or smth
-            float baseDamage = 10f;
+            float baseDamage = 20f;
 
             if (powerUpManager.DamageBoostActive)
             {
-                TakeDamage(baseDamage * powerUpManager.extraDamage);
+                powerUpManager.ActivateDamageBoost();
+                TakeDamage(powerUpManager.extraDamage);
             }
 
             else
@@ -101,22 +102,28 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        currentHealth = Mathf.Max(currentHealth, 0);
+
         healthBar.UpdateEnemyHealthBar(currentHealth, maxHealth);
+
         if (currentHealth <= 0)
         {
             OnDeath();
         }
-        Debug.Log("Damage: " + damage);
     }
 
     public void OnDeath()
     {
-        Debug.Log("Enemy died at " + transform.position);
+        gameObject.SetActive(false);
+
+        //  Score increment
+        score.UpdateScore();
+
         //  Handles the PowerUp
-        if (Random.value < 1f)
+        if (Random.value < 0.5f)
         {
             float randomValue = Random.value;
-            GameObject powerUp = null;
+            GameObject powerUp;
             if (randomValue < 0.5f) // 50% chance for each power-up
             {
                 powerUp = ObjectPoolManager.Instance.GetPooledObject("DamagePowerUp");
@@ -130,13 +137,7 @@ public class Enemy : MonoBehaviour
             {
                 powerUp.transform.position = transform.position;
                 powerUp.SetActive(true);
-                Debug.Log("Power up spawned at " + powerUp.transform.position);
             }
-
-            gameObject.SetActive(false);
-
-            //  Score increment
-            score.UpdateScore();
         }
     } 
 }

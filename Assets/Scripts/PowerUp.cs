@@ -1,9 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 2f;
     private Transform target = null;
+
+    private Coroutine timerCoroutine;
+
+    public static float powerUpDuration = 5f;
 
     private void Start()
     {
@@ -19,7 +24,36 @@ public class PowerUp : MonoBehaviour
     {
         LookAtTarget();
 
-        Debug.Log("I really spawned at " + transform.position);
+        Debug.Log("Starting coroutine");
+
+        if (timerCoroutine == null)
+        {
+            timerCoroutine = StartCoroutine(TimerCoroutine());
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (timerCoroutine != null)
+        {
+            StopCoroutine(timerCoroutine);
+            Debug.Log("Coroutine stopped");
+        }
+    }
+
+    private IEnumerator TimerCoroutine()
+    {
+        float timer = powerUpDuration;
+
+        while (timer > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            timer -= 1f;
+            Debug.Log($"Power-up duration remaining: {timer}");
+        }
+
+        // Deactivate the power-up
+        gameObject.SetActive(false);
     }
 
     private void LookAtTarget()

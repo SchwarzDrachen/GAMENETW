@@ -27,20 +27,9 @@ public class Planet : MonoBehaviour
             TakeDamage(100f);
         }
 
-        if (collision.gameObject.tag == "DamageBoost")
+        if (collision.gameObject.tag == "DamageBoost" || collision.gameObject.tag == "ScoreBoost")
         {
-            // Activate power-up effects
-            powerUpManager.DamageBoostActive = true;
-
-            Debug.Log("Damage Boost for 10 seconds.");
-        }
-
-        if (collision.gameObject.tag == "ScoreBoost")
-        {
-            // Activate power-up effects
-            powerUpManager.ScoreBoostActive = true;
-
-            Debug.Log("Score Boost for 10 seconds.");
+            powerUpManager.ActivatePowerUp(collision.gameObject);
         }
     }
 
