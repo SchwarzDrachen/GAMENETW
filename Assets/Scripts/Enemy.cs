@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 2.0f;
+    [SerializeField] private float moveSpeed = 1.0f;
 
     public float currentHealth, maxHealth;
 
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.Find("Player").transform;
+        target = GameObject.Find("Planet").transform;
 
         //  Finds the Score Component. Clutch. I was losing my mind.
         score = FindObjectOfType<Score>();
@@ -106,14 +106,12 @@ public class Enemy : MonoBehaviour
         {
             OnDeath();
         }
-        Debug.Log("Damage: " + damage);
     }
 
     public void OnDeath()
     {
-        Debug.Log("Enemy died at " + transform.position);
         //  Handles the PowerUp
-        if (Random.value < 1f)
+        if (Random.value < 0.25f)
         {
             float randomValue = Random.value;
             GameObject powerUp = null;
@@ -130,7 +128,6 @@ public class Enemy : MonoBehaviour
             {
                 powerUp.transform.position = transform.position;
                 powerUp.SetActive(true);
-                Debug.Log("Power up spawned at " + powerUp.transform.position);
             }
 
             gameObject.SetActive(false);

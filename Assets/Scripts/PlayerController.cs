@@ -26,14 +26,12 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DamagePowerTimer()
     {
         yield return new WaitForSeconds(10.0f);
-        Debug.Log("Damage OFF");
         powerUpManager.DamageBoostActive = false;
     }
 
     private IEnumerator ScorePowerTimer()
     {
         yield return new WaitForSeconds(10.0f);
-        Debug.Log("Damage OFF");
         powerUpManager.ScoreBoostActive = false;
     }
 
@@ -60,7 +58,6 @@ public class PlayerController : MonoBehaviour
     }
 
     private void ShootBullet(){
-        //Instantiate(bullet, transform.position, transform.rotation);
         GameObject bullet = ObjectPoolManager.Instance.GetPooledObject("Bullet");
         if(bullet != null){
             bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
@@ -72,23 +69,26 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "DamageBoost")
         {
-            // Activate power-up effects
-            powerUpManager.DamageBoostActive = true;
+            if (!powerUpManager.ScoreBoostActive)
+            {
+                // Activate power-up effects
+                powerUpManager.DamageBoostActive = true;
 
-            //Debug.Log("Damage Boost for 10 seconds.");
-            collision.gameObject.SetActive(false);
-            StartCoroutine(DamagePowerTimer());
-            
+                collision.gameObject.SetActive(false);
+                StartCoroutine(DamagePowerTimer());
+            }
         }
 
         if (collision.gameObject.tag == "ScoreBoost")
         {
-            // Activate power-up effects
-            powerUpManager.ScoreBoostActive = true;
+            if(!powerUpManager.DamageBoostActive)
+            {
+                // Activate power-up effects
+                powerUpManager.ScoreBoostActive = true;
 
-            //Debug.Log("Score Boost for 10 seconds.");
-            collision.gameObject.SetActive(false);
-            StartCoroutine(ScorePowerTimer());
+                collision.gameObject.SetActive(false);
+                StartCoroutine(ScorePowerTimer());
+            }
         }
     }
 }
