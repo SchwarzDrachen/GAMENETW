@@ -7,7 +7,7 @@ public class PowerUp : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.Find("Player").transform;
+        target = GameObject.Find("Planet").transform;
     }
 
     public void SetTarget(Transform target)
@@ -40,5 +40,14 @@ public class PowerUp : MonoBehaviour
     private void Move()
     {
         transform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Planet")
+        {
+            //  Reuse them na
+            gameObject.SetActive(false);
+        }
     }
 }

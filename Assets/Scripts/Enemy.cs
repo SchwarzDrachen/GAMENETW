@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.Find("Player").transform;
+        target = GameObject.Find("Planet").transform;
 
         //  Finds the Score Component. Clutch. I was losing my mind.
         score = FindObjectOfType<Score>();

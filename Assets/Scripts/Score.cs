@@ -7,7 +7,9 @@ public class Score : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
 
-    public float currentScore, enemyKill = 1f, bonus = 1f;
+    [SerializeField] PowerUpManager powerUpManager;
+
+    public float currentScore, enemyKill = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -16,14 +18,17 @@ public class Score : MonoBehaviour
 
         scoreText.text = "Score: " + currentScore;
     }
-
+    
     public void UpdateScore()
     {
-        //  Do the math typesh
-        enemyKill *= bonus;
-        currentScore += enemyKill;
-
-        //  Display the score typesh
+        if (powerUpManager.ScoreBoostActive)
+        {
+            currentScore += enemyKill * powerUpManager.scoreBonus;
+        }
+        else
+        {
+            currentScore += enemyKill;
+        }
         scoreText.text = "Score: " + currentScore;
     }
 }

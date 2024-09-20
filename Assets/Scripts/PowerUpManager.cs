@@ -8,10 +8,12 @@ public class PowerUpManager : MonoBehaviour
 
     public bool DamageBoostActive = false, ScoreBoostActive = false;
 
+    private float powerUpTimer;
+
     private void Start()
     {
         extraDamage = 5f;
-        scoreBonus = 1f;
+        scoreBonus = 2f;
     }
 
     public void DamageBoost()
