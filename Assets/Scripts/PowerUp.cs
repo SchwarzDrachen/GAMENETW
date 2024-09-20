@@ -5,6 +5,8 @@ public class PowerUp : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;
     private Transform target = null;
 
+    [SerializeField] PowerUpManager damageBoost;
+
     private void Start()
     {
         target = GameObject.Find("Player").transform;
@@ -47,7 +49,7 @@ public class PowerUp : MonoBehaviour
         if (collision.gameObject.tag == "Planet")
         {
             // Activate power-up effects
-
+            damageBoost.DamageBoostActive = true;
 
             Debug.Log("Power-up collected!");
             gameObject.SetActive(false);

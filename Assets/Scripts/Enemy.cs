@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 2.0f;
@@ -14,7 +15,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] HealthManager healthBar;
     [SerializeField] Score score;
 
-    [SerializeField] GameObject powerUp;
+    [SerializeField] PowerUp powerUp;
+    [SerializeField] PowerUpManager damageBoost;
+    [SerializeField] PowerUpManager scoreBoost;
+    [SerializeField] PowerUpManager heal;
 
     private void Awake()
     {
@@ -27,6 +31,12 @@ public class Enemy : MonoBehaviour
 
         //  Finds the Score Component. Clutch. I was losing my mind.
         score = FindObjectOfType<Score>();
+
+        powerUp = FindObjectOfType<PowerUp>();
+
+        damageBoost = FindObjectOfType<PowerUpManager>();
+        scoreBoost = FindObjectOfType<PowerUpManager>();
+        heal = FindObjectOfType<PowerUpManager>();
     }
 
     private void OnEnable()
@@ -60,7 +70,16 @@ public class Enemy : MonoBehaviour
             //  Not too late to salvage this though. Could just have a function in the Enemy script called CritRate or smth
             float baseDamage = 10f;
 
-            TakeDamage(baseDamage);
+            if (damageBoost.DamageBoostActive)
+            {
+                TakeDamage(baseDamage * 5f);
+                Debug.Log("Shooting 50 damage");
+            }
+
+            else
+            {
+                TakeDamage(baseDamage);
+            }
         }
 
         if (collision.gameObject.tag == "Planet")

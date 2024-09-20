@@ -7,11 +7,11 @@ public class PowerUpManager : MonoBehaviour
     public float extraDamage;
     public float scoreBonus;
 
-    public bool isActive;
+    public bool DamageBoostActive = false;
 
     public void DamageBoost()
     {
-        isActive = true;
+        DamageBoostActive = true;
         extraDamage = 50f;
     }
 }
