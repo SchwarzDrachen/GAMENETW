@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPunCallbacks
 {
     [SerializeField] private float maxSpeed = 5.0f;
     [SerializeField] private float movementRadius = 1.5f;
@@ -12,16 +11,22 @@ public class PlayerController : MonoBehaviour
     private float currentSpeed;
     private float timeCounter;
 
-    private void Start(){
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        if (!photonView.IsMine) return;
         InvokeRepeating("ShootBullet", 00.01f, fireRate);
     }
 
-    private void Update(){
+    private void Update()
+    {
+        if (!photonView.IsMine) return;
         HandleMovement();
         HandleRotation();
     }
 
-    private void HandleMovement(){
+    private void HandleMovement()
+    {
         // Get the player input to determine the diretion of the movement
         float movementInput = Input.GetAxis("Horizontal");
         currentSpeed = movementInput * Time.deltaTime * maxSpeed;
@@ -31,10 +36,11 @@ public class PlayerController : MonoBehaviour
         float x = Mathf.Cos(timeCounter) * movementRadius;
         float y = Mathf.Sin(timeCounter) * movementRadius;
 
-        transform.position = new Vector2(x,y);
+        transform.position = new Vector2(x, y);
     }
 
-    private void HandleRotation(){
+    private void HandleRotation()
+    {
         // Define a quaternion that will make the player face outwards of the circle
         Quaternion newRotation = Quaternion.LookRotation(-transform.position, Vector3.forward);
         // Disregard rotation in the x and y since we are working on 2D space
@@ -43,10 +49,12 @@ public class PlayerController : MonoBehaviour
         transform.rotation = newRotation;
     }
 
-    private void ShootBullet(){
+    private void ShootBullet()
+    {
         //Instantiate(bullet, transform.position, transform.rotation);
         GameObject bullet = ObjectPoolManager.Instance.GetPooledObject("Bullet");
-        if(bullet != null){
+        if (bullet != null)
+        {
             bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
             bullet.gameObject.SetActive(true);
         }
