@@ -757,6 +757,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4169107158604014342, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4169107158604014342, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8629749838495680593, guid: 8fe73b019e1bce041875aec7d0d536cd, type: 3}
       propertyPath: m_Name
       value: Enemy

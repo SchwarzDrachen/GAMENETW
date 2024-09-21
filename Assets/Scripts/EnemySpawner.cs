@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField] private float minSpawnInterval = 0.50f;
     [SerializeField] private float maxSpawnInterval = 2.50f;
 
+    private const string ENEMY_PREFAB_NAME = "Enemy";
     private float spawnInterval;
     private Boundary boundary;
     private Coroutine spawner;
@@ -20,7 +22,9 @@ public class EnemySpawner : MonoBehaviour
         if(spawner != null){
             return;
         }
-        spawner = StartCoroutine(SpawnCoroutine());
+        if(PhotonNetwork.IsMasterClient){
+            spawner = StartCoroutine(SpawnCoroutine());
+        }
     }
 
     private IEnumerator SpawnCoroutine(){
@@ -32,11 +36,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy(){
          //Instantiate(bullet, transform.position, transform.rotation);
-        GameObject enemy = ObjectPoolManager.Instance.GetPooledObject("Enemy");
-        if(enemy != null){
-            enemy.transform.position = GetSpawnPosition();
-            enemy.gameObject.SetActive(true);
-        }
+        PhotonNetwork.Instantiate(ENEMY_PREFAB_NAME,GetSpawnPosition(), Quaternion.identity);
+        gameObject.SetActive(true);
     }
 
     private Vector2 GetSpawnPosition(){
@@ -60,4 +61,5 @@ public class EnemySpawner : MonoBehaviour
         }
         return Vector2.zero;
     }
+
 }
