@@ -21,14 +21,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public override void OnEnable()
     {
         base.OnEnable();
-        PlayerNumbering.OnPlayerNumberingChanged += AssignSprite;
+        PlayerNumbering.OnPlayerNumberingChanged += RPCAssignSprite;
         if (!photonView.IsMine) return;
         InvokeRepeating("ShootBullet", 00.01f, fireRate);
     }
     public override void OnDisable()
     {
         base.OnDisable();
-        PlayerNumbering.OnPlayerNumberingChanged -= AssignSprite;
+        PlayerNumbering.OnPlayerNumberingChanged -= RPCAssignSprite;
     }
 
     private void Update()
@@ -71,6 +71,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
             bullet.gameObject.SetActive(true);
         }
+    }
+
+    [PunRPC]
+    public void RPCAssignSprite()
+    {
+        photonView.RPC("AssignSprite", RpcTarget.AllBuffered);
     }
 
     private void AssignSprite()
