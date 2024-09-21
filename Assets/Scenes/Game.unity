@@ -800,6 +800,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPersist: 0
+  playerIcons:
+  - {fileID: 21300000, guid: 7313122a7c01e4146b7431b4bb93ed03, type: 3}
+  - {fileID: 21300000, guid: 3075f10a3a88594458106440541eb492, type: 3}
+  - {fileID: 21300000, guid: 67f1d99477dfb6d4c826e54f534bab17, type: 3}
+  - {fileID: 21300000, guid: e0ea8bee3beb685448ba5d136719b71f, type: 3}
 --- !u!4 &1193134765
 Transform:
   m_ObjectHideFlags: 0

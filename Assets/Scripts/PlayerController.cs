@@ -7,13 +7,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private float movementRadius = 1.5f;
     [SerializeField] private float fireRate = 0.1f;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     private float currentSpeed;
     private float timeCounter;
 
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     public override void OnEnable()
     {
         base.OnEnable();
+        
         if (!photonView.IsMine) return;
         InvokeRepeating("ShootBullet", 00.01f, fireRate);
     }
@@ -58,5 +65,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
             bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
             bullet.gameObject.SetActive(true);
         }
+    }
+
+    private void AssignSprite()
+    {
+        spriteRenderer.sprite = NetworkManager.Instance.GetPlayerIcon(photonView.Owner.ActorNumber);
     }
 }

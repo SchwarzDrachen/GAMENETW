@@ -6,6 +6,8 @@ using UnityEngine;
 public class NetworkManager : SingletonPUN<NetworkManager>
 {
     private const string PLAYER_PREFAB_NAME = "Player";
+    [SerializeField]
+    private Sprite[] playerIcons;
 
     private void Start()
     {
@@ -17,5 +19,18 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
         // Spawn the player
         PhotonNetwork.Instantiate(PLAYER_PREFAB_NAME, Vector3.zero, Quaternion.identity);
+    }
+
+    public Sprite GetPlayerIcon(int id)
+    {
+        if (id < playerIcons.Length)
+        {
+            return playerIcons[id];
+        }
+        else
+        {
+            Debug.LogError($"Cannot access sprite with id {id}");
+        }
+        return null;
     }
 }
