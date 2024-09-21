@@ -22,7 +22,11 @@ public class Connection : MonoBehaviourPunCallbacks
     {
         connectingPanel.gameObject.SetActive(false);
         connectedPanel.gameObject.SetActive(true);
+
         UpdateRoomInfo();
+        // Since it's a multiplayer, best to let Photon handle scene loading
+        // Load Game Scene: 1
+        PhotonNetwork.LoadLevel(1);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
