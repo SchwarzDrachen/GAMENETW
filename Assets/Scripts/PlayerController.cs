@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviourPunCallbacks
@@ -20,9 +21,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public override void OnEnable()
     {
         base.OnEnable();
-        AssignSprite();
+        PlayerNumbering.OnPlayerNumberingChanged += AssignSprite;
         if (!photonView.IsMine) return;
         InvokeRepeating("ShootBullet", 00.01f, fireRate);
+    }
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        PlayerNumbering.OnPlayerNumberingChanged -= AssignSprite;
     }
 
     private void Update()
@@ -69,6 +75,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void AssignSprite()
     {
-        spriteRenderer.sprite = NetworkManager.Instance.GetPlayerIcon(photonView.Owner.ActorNumber);
+        // GetPlayerNumber is only accessible through Photon.Pun.UtilityScripts
+        spriteRenderer.sprite = NetworkManager.Instance.GetPlayerIcon(photonView.Owner.GetPlayerNumber());
     }
 }
