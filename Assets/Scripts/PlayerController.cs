@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public override void OnEnable()
     {
         base.OnEnable();
-        
+        AssignSprite();
         if (!photonView.IsMine) return;
         InvokeRepeating("ShootBullet", 00.01f, fireRate);
     }
