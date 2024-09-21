@@ -21,14 +21,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public override void OnEnable()
     {
         base.OnEnable();
-        PlayerNumbering.OnPlayerNumberingChanged += RPCAssignSprite;
+        PlayerNumbering.OnPlayerNumberingChanged += AssignSprite;
         if (!photonView.IsMine) return;
         InvokeRepeating("ShootBullet", 00.01f, fireRate);
     }
     public override void OnDisable()
     {
         base.OnDisable();
-        PlayerNumbering.OnPlayerNumberingChanged -= RPCAssignSprite;
+        PlayerNumbering.OnPlayerNumberingChanged -= AssignSprite;
     }
 
     private void Update()
@@ -73,13 +73,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
-    [PunRPC]
-    public void RPCAssignSprite()
+    
+    public void AssignSprite()
     {
-        photonView.RPC("AssignSprite", RpcTarget.AllBuffered);
+        photonView.RPC("RPCAssignSprite", RpcTarget.AllBuffered);
     }
 
-    private void AssignSprite()
+    [PunRPC]
+    private void RPCAssignSprite()
     {
         // GetPlayerNumber is only accessible through Photon.Pun.UtilityScripts
         spriteRenderer.sprite = NetworkManager.Instance.GetPlayerIcon(photonView.Owner.GetPlayerNumber());
